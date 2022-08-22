@@ -1,11 +1,24 @@
-import './App.css';
+
+import {useDispatch, useSelector} from "react-redux";
+
 
 function App() {
-  return (
-    <div className="App">
+    const store = useSelector(store=> store.people)
+    const dispatch = useDispatch();
 
-    </div>
-  );
+
+    console.log(store)
+
+    return (
+        <div className="App">
+            <button type="click" onClick={() => {
+                dispatch({type: 'CLICK'})
+            }}>
+                Click
+            </button>
+
+        </div>
+    );
 }
 
 export default App;

@@ -1,23 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    people:[],
-    isLoading: false,
+    posts: [],
+    users: [],
 };
 
-export const catSlice = createSlice({
-    name: 'people',
+export const Slice = createSlice({
+    name: 'test',
     initialState,
     reducers: {
-        getPeopleFetch(state) {
-            state.isLoading = true;
+        getUsers: (state, action) => {
+            state.users = action.payload;
         },
-        getPeopleSuccess: (state, action) => {
-            state.people = action.payload;
-            state.isLoading = false;
-        },
+        getPosts: (state, action) => {
+            state.posts = action.payload;
+        }
     },
 });
 
-export const { getPeopleFetch, getPeopleSuccess } = catSlice.actions;
-export default catSlice.reducer; // peopleReducer
+export const { getUsers, getPosts } = Slice.actions;
+export default Slice.reducer;

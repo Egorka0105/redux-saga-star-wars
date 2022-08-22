@@ -1,25 +1,35 @@
+import {take, takeEvery, takeLatest, put, call, fork, spawn} from 'redux-saga/effects'
+import {API} from "../API";
+import {getPosts, getUsers} from "../slices/peopleSlice";
 
 
-
-
-function* yyy() {
-  yield "first";
-
-  yield "second";
+async function getAll (pattern) {
+    const request = await fetch(API +`${pattern}`);
+    return await request.json();
 }
-const generator = yyy();
 
+function* loadPosts() {
+    const posts = yield call(getAll, "posts");
+    yield put(getPosts({payload: posts}));
+}
 
-console.log(1);
+function* loadUsers() {
+    const users = yield call(getAll, "users");
+    yield put(getUsers({payload: users}));
+}
 
-console.log("generator", generator.next());
+function* sagaWorker() {
+    yield spawn(loadPosts);
+    yield spawn(loadUsers);
+}
 
-console.log(2);
-
-
+function* sagaWatcher() {
+   yield takeEvery('CLICK', sagaWorker);
+}
 
 
 function* rootSaga() {
+    yield sagaWatcher();
 }
 
 export default rootSaga;
